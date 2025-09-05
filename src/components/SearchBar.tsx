@@ -16,15 +16,23 @@ const SearchBar = ({ onSearch, placeholder = "Search for fresh groceries..." }: 
     onSearch(query);
   };
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setQuery(value);
+    // Trigger search on every keystroke for better UX
+    onSearch(value);
+  };
+
   return (
     <form onSubmit={handleSubmit} className="relative w-full max-w-md mx-auto">
       <div className="relative">
         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
         <Input
           value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          onChange={handleChange}
           placeholder={placeholder}
           className="pl-10 pr-20 h-12 bg-card border-border/30 focus:border-primary shadow-sm"
+          autoComplete="off"
         />
         <Button
           type="submit"

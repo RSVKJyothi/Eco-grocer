@@ -1,15 +1,16 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Input } from '@/components/ui/input';
 import Navigation from '@/components/Navigation';
 import QuantitySelector from '@/components/QuantitySelector';
-import { Plus, ArrowLeft, Search, AlertTriangle, ShoppingCart, Coffee, Calendar, Clock } from 'lucide-react';
+import { Plus, ArrowLeft, Search, AlertTriangle, ShoppingCart, Coffee, Calendar, Clock, Trash2 } from 'lucide-react';
 import { useCart } from '@/hooks/useCart';
 import { useToast } from '@/hooks/use-toast';
 import { useNavigate } from 'react-router-dom';
 import { KitchenItem } from '@/types';
+import { useNotifications } from '@/hooks/useNotifications';
 
 const MyKitchen = () => {
   const [activeTab, setActiveTab] = useState('daily');
@@ -103,6 +104,16 @@ const MyKitchen = () => {
   const { addToCart, getTotalItems } = useCart();
   const { toast } = useToast();
   const navigate = useNavigate();
+  const { scheduleKitchenAlerts, triggerInstantAlert } = useNotifications();
+
+  // Start notifications when component mounts
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      scheduleKitchenAlerts();
+    }, 2000); // Start after 2 seconds
+
+    return () => clearTimeout(timer);
+  }, [scheduleKitchenAlerts]);
 
   const getFilteredItems = (category: string) => {
     return kitchenItems.filter(item => item.category === category);
@@ -121,7 +132,15 @@ const MyKitchen = () => {
   };
 
   const removeItem = (itemId: string) => {
+    const itemToRemove = kitchenItems.find(item => item.id === itemId);
     setKitchenItems(prev => prev.filter(item => item.id !== itemId));
+    
+    if (itemToRemove) {
+      toast({
+        title: "Item removed! 🗑️",
+        description: `${itemToRemove.name} has been removed from your ${itemToRemove.category} list.`,
+      });
+    }
   };
 
   const addNewItem = (category: string) => {
@@ -171,22 +190,7 @@ const MyKitchen = () => {
 
   // Mock AI notification (would be real in production)
   const showAINotification = () => {
-    toast({
-      title: "⚠️ Kitchen Alert",
-      description: "You'll run out of Rice in 2 days. Add to cart?",
-      action: (
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => {
-            addToCart({ id: 'rice-refill', name: 'Brown Rice (Organic)', price: 8.99, image: '/placeholder.svg' });
-            toast({ title: "Rice added to cart! 🌾" });
-          }}
-        >
-          Add Rice
-        </Button>
-      ),
-    });
+    triggerInstantAlert('Rice');
   };
 
   const TabContent = ({ category }: { category: string }) => {
@@ -277,6 +281,7 @@ const MyKitchen = () => {
                 <div className="flex items-center justify-between p-4 border-b border-border bg-muted/30">
                   <span className="font-semibold text-foreground flex-1">Items</span>
                   <span className="font-semibold text-foreground w-24 text-center">Quantity</span>
+                  <span className="font-semibold text-foreground w-20 text-center">Action</span>
                 </div>
                 
                 {/* Table Items */}
@@ -303,6 +308,16 @@ const MyKitchen = () => {
                           onDecrease={() => updateItemQuantity(item.id, item.quantity - 1)}
                           min={0}
                         />
+                      </div>
+                      <div className="w-20 flex justify-center">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => removeItem(item.id)}
+                          className="text-destructive hover:text-destructive hover:bg-destructive/10 p-2"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
                       </div>
                     </div>
                   ))}
