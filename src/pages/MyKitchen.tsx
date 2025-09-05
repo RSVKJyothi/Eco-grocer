@@ -14,6 +14,7 @@ import { KitchenItem } from '@/types';
 const MyKitchen = () => {
   const [activeTab, setActiveTab] = useState('daily');
   const [kitchenItems, setKitchenItems] = useState<KitchenItem[]>([
+    // Daily items
     {
       id: '1',
       name: 'Rice',
@@ -24,10 +25,76 @@ const MyKitchen = () => {
     },
     {
       id: '2',
-      name: 'Milk',
+      name: 'Tea',
       quantity: 1,
-      unit: 'bottle',
+      unit: 'cups',
+      category: 'daily',
+      lastUpdated: new Date()
+    },
+    // Weekly items
+    {
+      id: '3',
+      name: 'Oil',
+      quantity: 1,
+      unit: 'bottles',
       category: 'weekly',
+      lastUpdated: new Date()
+    },
+    {
+      id: '4',
+      name: 'Pulses',
+      quantity: 3,
+      unit: 'cups',
+      category: 'weekly',
+      lastUpdated: new Date()
+    },
+    // Monthly items (based on CSV data)
+    {
+      id: '5',
+      name: 'Rice',
+      quantity: 5,
+      unit: 'kg',
+      category: 'monthly',
+      lastUpdated: new Date()
+    },
+    {
+      id: '6',
+      name: 'Oil',
+      quantity: 2,
+      unit: 'l',
+      category: 'monthly',
+      lastUpdated: new Date()
+    },
+    {
+      id: '7',
+      name: 'Atta',
+      quantity: 10,
+      unit: 'kg',
+      category: 'monthly',
+      lastUpdated: new Date()
+    },
+    {
+      id: '8',
+      name: 'Pulses',
+      quantity: 2,
+      unit: 'kg',
+      category: 'monthly',
+      lastUpdated: new Date()
+    },
+    {
+      id: '9',
+      name: 'Sugar',
+      quantity: 3,
+      unit: 'kg',
+      category: 'monthly',
+      lastUpdated: new Date()
+    },
+    {
+      id: '10',
+      name: 'Tea',
+      quantity: 1,
+      unit: 'kg',
+      category: 'monthly',
       lastUpdated: new Date()
     }
   ]);
@@ -192,7 +259,7 @@ const MyKitchen = () => {
           </CardContent>
         </Card>
 
-        {/* Items List */}
+        {/* Items List - Table Style to Match Mockup */}
         {isEmpty ? (
           <div className="text-center py-12">
             <div className="bg-muted rounded-full p-6 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
@@ -204,40 +271,44 @@ const MyKitchen = () => {
           </div>
         ) : (
           <>
-            <div className="space-y-3">
-              {items.map((item) => (
-                <Card key={item.id}>
-                  <CardContent className="p-4">
-                    <div className="flex items-center justify-between">
-                      <div className="flex-1">
-                        <h3 className="font-semibold text-foreground">
-                          {item.name}
-                        </h3>
-                        <p className="text-sm text-muted-foreground">
-                          {item.unit}
-                        </p>
+            <Card>
+              <CardContent className="p-0">
+                {/* Table Header */}
+                <div className="flex items-center justify-between p-4 border-b border-border bg-muted/30">
+                  <span className="font-semibold text-foreground flex-1">Items</span>
+                  <span className="font-semibold text-foreground w-24 text-center">Quantity</span>
+                </div>
+                
+                {/* Table Items */}
+                <div className="divide-y divide-border">
+                  {items.map((item, index) => (
+                    <div key={item.id} className="flex items-center justify-between p-4 hover:bg-muted/20 transition-colors">
+                      <div className="flex-1 flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary font-semibold text-sm">
+                          {index + 1}
+                        </div>
+                        <div>
+                          <h3 className="font-medium text-foreground">
+                            {item.name}
+                          </h3>
+                          <p className="text-xs text-muted-foreground">
+                            per {item.unit}
+                          </p>
+                        </div>
                       </div>
-                      <div className="flex items-center gap-3">
+                      <div className="w-24 flex justify-center">
                         <QuantitySelector
                           quantity={item.quantity}
                           onIncrease={() => updateItemQuantity(item.id, item.quantity + 1)}
                           onDecrease={() => updateItemQuantity(item.id, item.quantity - 1)}
                           min={0}
                         />
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => removeItem(item.id)}
-                          className="text-destructive hover:text-destructive hover:bg-destructive/10 p-2"
-                        >
-                          Remove (–)
-                        </Button>
                       </div>
                     </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
 
             {/* Add to Cart Button */}
             <Card className="bg-primary/5 border-primary/20">
@@ -283,18 +354,22 @@ const MyKitchen = () => {
 
         {/* Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-3 mb-6">
-            <TabsTrigger value="daily" className="gap-1">
-              <Coffee className="h-4 w-4" />
+          <TabsList className="grid w-full grid-cols-4 mb-6">
+            <TabsTrigger value="daily" className="gap-1 text-xs">
+              <Coffee className="h-3 w-3" />
               Daily
             </TabsTrigger>
-            <TabsTrigger value="weekly" className="gap-1">
-              <Calendar className="h-4 w-4" />
+            <TabsTrigger value="weekly" className="gap-1 text-xs">
+              <Calendar className="h-3 w-3" />
               Weekly
             </TabsTrigger>
-            <TabsTrigger value="monthly" className="gap-1">
-              <Clock className="h-4 w-4" />
+            <TabsTrigger value="monthly" className="gap-1 text-xs">
+              <Clock className="h-3 w-3" />
               Monthly
+            </TabsTrigger>
+            <TabsTrigger value="recommendations" className="gap-1 text-xs">
+              <AlertTriangle className="h-3 w-3" />
+              Tips
             </TabsTrigger>
           </TabsList>
 
@@ -308,6 +383,46 @@ const MyKitchen = () => {
           
           <TabsContent value="monthly">
             <TabContent category="monthly" />
+          </TabsContent>
+          
+          <TabsContent value="recommendations">
+            <div className="space-y-4">
+              <Card className="border-primary/20 bg-primary/5">
+                <CardContent className="p-4">
+                  <div className="flex items-center gap-3 mb-3">
+                    <AlertTriangle className="h-5 w-5 text-primary" />
+                    <h3 className="font-semibold text-foreground">Smart Recommendations</h3>
+                  </div>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    Based on your purchase history, here are some predictions:
+                  </p>
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between p-3 bg-warning/10 rounded-lg border border-warning/20">
+                      <div>
+                        <p className="font-medium text-foreground">Rice</p>
+                        <p className="text-xs text-muted-foreground">Usually purchased every 30 days</p>
+                      </div>
+                      <span className="text-xs text-warning font-medium">Due in 2 days</span>
+                    </div>
+                    <div className="flex items-center justify-between p-3 bg-accent/10 rounded-lg border border-accent/20">
+                      <div>
+                        <p className="font-medium text-foreground">Oil</p>
+                        <p className="text-xs text-muted-foreground">Usually purchased every 30 days</p>
+                      </div>
+                      <span className="text-xs text-accent font-medium">Due in 1 week</span>
+                    </div>
+                  </div>
+                  <Button
+                    variant="eco"
+                    size="sm"
+                    onClick={showAINotification}
+                    className="w-full mt-4"
+                  >
+                    Get More Insights
+                  </Button>
+                </CardContent>
+              </Card>
+            </div>
           </TabsContent>
         </Tabs>
       </div>
