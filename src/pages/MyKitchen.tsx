@@ -232,7 +232,13 @@ const MyKitchen = () => {
                   onChange={(e) => setNewItemName(e.target.value)}
                   placeholder="Enter item name..."
                   className="flex-1"
-                  onKeyPress={(e) => e.key === 'Enter' && addNewItem(category)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault();
+                      addNewItem(category);
+                    }
+                  }}
+                  autoFocus
                 />
                 <Button
                   variant="eco"
@@ -245,7 +251,10 @@ const MyKitchen = () => {
                 <Button
                   variant="ghost"
                   size="sm"
-                  onClick={() => setShowAddItem(prev => ({ ...prev, [category]: false }))}
+                  onClick={() => {
+                    setNewItemName('');
+                    setShowAddItem(prev => ({ ...prev, [category]: false }));
+                  }}
                 >
                   Cancel
                 </Button>
