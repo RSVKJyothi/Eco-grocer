@@ -53,38 +53,22 @@ export const useNotifications = () => {
   }, [toast]);
 
   const scheduleKitchenAlerts = useCallback(() => {
-    const alerts = [
-      {
-        title: "Kitchen Assistant",
-        message: "Based on your usage, you might need Rice soon. Would you like to add it to your cart?",
-        delay: 3000,
-        item: { id: 'rice-refill', name: 'Brown Rice (Organic)', price: 8.99, image: '/placeholder.svg' }
-      },
-      {
-        title: "Smart Reminder",
-        message: "Your Oil is running low. Consider restocking to avoid running out.",
-        delay: 8000,
-        item: { id: 'oil-refill', name: 'Cooking Oil', price: 6.99, image: '/placeholder.svg' }
-      },
-      {
-        title: "Grocery Planning",
-        message: "You typically buy Atta around this time. Add to your shopping list?",
-        delay: 15000,
-        item: { id: 'atta-refill', name: 'Wheat Flour (Atta)', price: 4.99, image: '/placeholder.svg' }
-      }
-    ];
+    // Just one smart notification after 10 seconds
+    const alert = {
+      title: "Kitchen Assistant",
+      message: "Based on your usage, you might need Rice soon. Would you like to add it to your cart?",
+      item: { id: 'rice-refill', name: 'Brown Rice (Organic)', price: 8.99, image: '/placeholder.svg' }
+    };
 
-    alerts.forEach(alert => {
-      setTimeout(() => {
-        const addToCartAction = () => {
-          addToCart(alert.item);
-          toast({ title: `${alert.item.name} added to your cart` });
-        };
+    setTimeout(() => {
+      const addToCartAction = () => {
+        addToCart(alert.item);
+        toast({ title: `${alert.item.name} added to your cart` });
+      };
 
-        sendBrowserNotification(alert.title, alert.message, addToCartAction);
-        sendInAppNotification(alert.title, alert.message, "Add to Cart", addToCartAction);
-      }, alert.delay);
-    });
+      sendBrowserNotification(alert.title, alert.message, addToCartAction);
+      sendInAppNotification(alert.title, alert.message, "Add to Cart", addToCartAction);
+    }, 10000); // Single notification after 10 seconds
   }, [sendBrowserNotification, sendInAppNotification, addToCart, toast]);
 
   const triggerInstantAlert = useCallback((item: string) => {
