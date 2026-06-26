@@ -1,73 +1,148 @@
-# Welcome to your Lovable project
+# Eco-Grocer
 
-## Project info
+## Smart Grocery Refill App for Busy Individuals Living Alone
 
-**URL**: https://lovable.dev/projects/60697499-1b54-41a7-8552-9c9032223c50
+Built during a Vibe Coding Hackathon.
 
-## How can I edit this code?
+> "Grocery shopping shouldn't depend on memory. It should happen before you realize you've run out."
 
-There are several ways of editing your application.
+---
 
-**Use Lovable**
+## The Problem
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/60697499-1b54-41a7-8552-9c9032223c50) and start prompting.
+People living alone—working professionals and students—often forget to restock essential groceries.
 
-Changes made via Lovable will be committed automatically to this repo.
+This leads to common frustrations:
 
-**Use your preferred IDE**
+* Running out of milk, eggs, or bread unexpectedly.
+* Repeating the same grocery search every month.
+* Spending unnecessary time rebuilding the same cart.
+* Forgetting monthly refills due to busy schedules.
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+The problem isn't buying groceries—it's remembering to buy them.
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+---
 
-Follow these steps:
+## The Solution
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+Eco-Grocer acts like a personal grocery assistant.
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+Users set up their commonly purchased essentials once, and the app helps them maintain those items automatically through reminders and smart refill suggestions.
 
-# Step 3: Install the necessary dependencies.
-npm i
+---
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+## Key Features
 
-**Edit a file directly in GitHub**
+### My Kitchen
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+* Add monthly essentials once during setup.
+* Items remain saved permanently.
+* Increase or decrease quantities using simple + and – controls.
+* Essentials are automatically added to the cart.
+* Reordering becomes:
 
-**Use GitHub Codespaces**
+Confirm → Pay.
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+No repeated searching.
 
-## What technologies are used for this project?
+---
 
-This project is built with:
+### Smart Refill Reminders
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+The app tracks:
 
-## How can I deploy this project?
+* Purchase date
+* Category of item
+* Typical usage duration
 
-Simply open [Lovable](https://lovable.dev/projects/60697499-1b54-41a7-8552-9c9032223c50) and click on Share -> Publish.
+and sends intelligent reminders when it's time to restock.
 
-## Can I connect a custom domain to my Lovable project?
+Examples:
 
-Yes, you can!
+* Milk → Daily essential → Reminder after approximately 2 days.
+* Vegetables → Weekly essentials.
+* Rice and groceries → Monthly essentials.
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+---
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+### Categorized Essentials
+
+Products are organized into:
+
+* Daily Essentials
+* Weekly Essentials
+* Monthly Essentials
+
+This allows reminders to feel personalized instead of generic.
+
+---
+
+## Product Thinking
+
+### Decision 1: Save Essentials Permanently
+
+**Alternative:** Users build their cart every time.
+
+**Why this:** Grocery purchases are repetitive. The app removes unnecessary effort.
+
+---
+
+### Decision 2: Smart Notifications
+
+**Alternative:** Generic monthly reminders.
+
+**Why this:** Different products have different consumption cycles.
+
+---
+
+### Decision 3: Organized Essential Categories
+
+**Alternative:** One large grocery list.
+
+**Why this:** Helps users mentally organize their consumption patterns.
+
+---
+
+## Who Is It For?
+
+* Working professionals living alone
+* Students living away from home
+* Busy individuals managing their own groceries
+* Anyone who repeatedly forgets to refill essentials
+
+---
+
+## Tech Stack
+
+Built using:
+
+* Lovable
+* React
+* Supabase
+* AI-assisted development tools
+
+---
+
+## Future Improvements
+
+* Predictive refill recommendations based on purchase history.
+* Shared family grocery lists.
+* Budget tracking.
+* Integration with grocery delivery platforms.
+* AI-generated shopping suggestions.
+
+---
+
+## Status
+
+🚧 Hackathon Prototype
+
+Future development planned.
+
+---
+
+## Built By
+
+**R S V K Jyothi**
+
+Aspiring Product Manager | Product Analyst | B.Tech 2026
